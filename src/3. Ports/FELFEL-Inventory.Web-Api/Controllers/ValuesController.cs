@@ -8,7 +8,7 @@ namespace FELFEL_Inventory.Web_Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class BatchController : ControllerBase
     {
         // GET api/values
         [HttpGet]
