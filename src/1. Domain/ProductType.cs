@@ -2,11 +2,12 @@
 
 namespace FELFEL.Domain
 {
-    public class Product
+    public class ProductType
     {
         public int ID { get; set; }
+        public string Name { get; set; }
 
-        public Product()
+        public ProductType()
         {
         }
     }

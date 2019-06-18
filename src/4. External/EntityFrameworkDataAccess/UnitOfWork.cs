@@ -1,4 +1,9 @@
-﻿namespace FELFEL.Persistence
+﻿using FELFEL.External.EntityFrameworkDataAccess;
+using FELFEL.External.EntityFrameworkDataAccess.Repositories;
+using FELFEL.UseCases;
+using FELFEL.UseCases.Repositories;
+
+namespace FELFEL.Persistence
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -7,12 +12,10 @@
         public UnitOfWork(FELFELContext context)
         {
             _context = context;
-            Courses = new CourseRepository(_context);
-            Authors = new AuthorRepository(_context);
+            Batches = new BatchRepository(_context);
         }
 
-        public ICourseRepository Courses { get; private set; }
-        public IAuthorRepository Authors { get; private set; }
+        public IBatchRepository Batches { get; private set; }
 
         public int Complete()
         {
