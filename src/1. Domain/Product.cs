@@ -1,10 +1,13 @@
 ﻿using System;
 
-public class Product
+namespace FELFEL.Domain
 {
-    public int ID { get; set; }
+    public class Product
+    {
+        public int ID { get; set; }
 
-    public Product()
-	{
-	}
+        public Product()
+        {
+        }
+    }
 }
