@@ -12,7 +12,7 @@ namespace FELFEL.WebApi.ExternalModels
         public NewBatch() {}
 
         [Required]
-        public ProductType ProductType { get; set; }
+        public Product ProductType { get; set; }
 
         [Required]
         public DateTime Expiration { get; set; }

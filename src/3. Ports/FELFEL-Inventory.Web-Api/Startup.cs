@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using FELFEL.External.EntityFrameworkDataAccess;
 using FELFEL.Persistence;
 using FELFEL.UseCases;
+using FELFEL.UseCases.GetAllBatches;
 using FELFEL.UseCases.RegisterNewBatch;
+using FELFEL.WebApi;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace FELFEL_Inventory.Web_Api
 {
@@ -28,10 +25,18 @@ namespace FELFEL_Inventory.Web_Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<FELFELContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection"),
+                    x => x.MigrationsAssembly("FELFEL-Inventory.Web-Api")));
+
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddScoped<IRegisterNewBatch, RegisterNewBatch>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddSingleton<IRegisterNewBatch, RegisterNewBatch>();
+            services.AddSingleton<IGetAllBatches, GetAllBatches>();
+
+            services.AddSingleton<IUnitOfWork, UnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +53,8 @@ namespace FELFEL_Inventory.Web_Api
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            SeedData.EnsurePopulated(app);
         }
     }
 }

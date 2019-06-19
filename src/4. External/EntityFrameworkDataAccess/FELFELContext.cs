@@ -5,11 +5,8 @@ namespace FELFEL.External.EntityFrameworkDataAccess
 {
     public class FELFELContext : DbContext
     {
-        public FELFELContext()
-            : base()
-        {
-        }
+        public FELFELContext(DbContextOptions options) : base(options) {}
 
-        public virtual DbSet<Batch> Authors { get; set; }
+        public virtual DbSet<Batch> Batches { get; set; }
     }
 }

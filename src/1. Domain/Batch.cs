@@ -1,5 +1,4 @@
-﻿using FELFEL_Inventory.Domain;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace FELFEL.Domain
@@ -12,7 +11,7 @@ namespace FELFEL.Domain
         }
 
         public int Id { get; set; }
-        public ProductType ProductType { get; set; }
+        public Product ProductType { get; set; }
         public DateTime Expiration { get; set; }
         public DateTime Arrival { get; set; }
         public uint OriginalUnitAmount { get; set; }

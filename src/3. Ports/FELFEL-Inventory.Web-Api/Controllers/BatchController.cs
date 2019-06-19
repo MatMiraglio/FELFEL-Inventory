@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FELFEL.Domain;
 using FELFEL.External.EntityFrameworkDataAccess;
 using FELFEL.Persistence;
+using FELFEL.UseCases.GetAllBatches;
 using FELFEL.UseCases.RegisterNewBatch;
 using FELFEL.WebApi.ExternalModels;
 using Microsoft.AspNetCore.Mvc;
@@ -16,10 +17,12 @@ namespace FELFEL_Inventory.Web_Api.Controllers
     public class BatchController : ControllerBase
     {
         private readonly IRegisterNewBatch registerNewBatchCommand;
+        private readonly IGetAllBatches getAllBatchesCommand;
 
-        public BatchController(IRegisterNewBatch registerNewBatchCommand)
+        public BatchController(IRegisterNewBatch registerNewBatchCommand, IGetAllBatches getAllBatchesCommand)
         {
             this.registerNewBatchCommand = registerNewBatchCommand;
+            this.getAllBatchesCommand = getAllBatchesCommand;
         }
 
 
@@ -27,7 +30,9 @@ namespace FELFEL_Inventory.Web_Api.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Batch>> Get()
         {
-            return 
+            var batches = getAllBatchesCommand.Execute();
+
+            return Ok(batches);
         }
 
         // GET api/batch/5

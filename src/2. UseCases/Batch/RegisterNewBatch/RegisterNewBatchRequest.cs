@@ -5,7 +5,7 @@ namespace FELFEL.UseCases.RegisterNewBatch
 {
     public class RegisterNewBatchRequest
     {
-        public ProductType ProductType { get; set; }
+        public Product ProductType { get; set; }
         public DateTime Expiration { get; set; }
         public uint OriginalUnitAmount { get; set; }
     }

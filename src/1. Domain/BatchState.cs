@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FELFEL_Inventory.Domain
+namespace FELFEL.Domain
 {
     public enum BatchState
     {

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FELFEL_Inventory.Domain
+namespace FELFEL.Domain
 {
     public class BatchChange
     {
-        int Id { get; set; }
+        public int ID { get; set; }
+        public Batch Batch { get; set; }
     }
 }
