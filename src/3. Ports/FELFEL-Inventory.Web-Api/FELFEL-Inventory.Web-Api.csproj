@@ -13,4 +13,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\1. Domain\FELFEL-Inventory.Domain.csproj" />
+    <ProjectReference Include="..\..\2. UseCases\FELFEL-Inventory.UseCases.csproj" />
+    <ProjectReference Include="..\..\4. External\FELFEL-Inventory.External.csproj" />
+  </ItemGroup>
+
 </Project>
