@@ -22,6 +22,10 @@ namespace FELFEL.UseCases.RegisterNewBatch
                 OriginalUnitAmount = RequestModel.OriginalUnitAmount,
                 RemainingUnits = RequestModel.OriginalUnitAmount
             };
+            if (unitOfWork.Products.Get(RequestModel.ProductType.Id) == null)
+            {
+                unitOfWork.Products.Add(RequestModel.ProductType);
+            }
 
             unitOfWork.Batches.Add(batch);
             unitOfWork.Complete();

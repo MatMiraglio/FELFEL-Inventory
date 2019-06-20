@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FELFEL.Domain;
-using FELFEL.External.EntityFrameworkDataAccess;
-using FELFEL.Persistence;
-using FELFEL.UseCases.GetAllBatches;
 using FELFEL.UseCases.RegisterNewBatch;
+using FELFEL.UseCases.Repositories;
 using FELFEL.WebApi.ExternalModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,12 +13,15 @@ namespace FELFEL_Inventory.Web_Api.Controllers
     public class BatchController : ControllerBase
     {
         private readonly IRegisterNewBatch registerNewBatchCommand;
-        private readonly IGetAllBatches getAllBatchesCommand;
+        private readonly IBatchRepository batchRepository;
 
-        public BatchController(IRegisterNewBatch registerNewBatchCommand, IGetAllBatches getAllBatchesCommand)
+        public BatchController(
+            IRegisterNewBatch registerNewBatchCommand,
+            IBatchRepository batchRepository
+            )
         {
             this.registerNewBatchCommand = registerNewBatchCommand;
-            this.getAllBatchesCommand = getAllBatchesCommand;
+            this.batchRepository = batchRepository;
         }
 
 
@@ -30,7 +29,7 @@ namespace FELFEL_Inventory.Web_Api.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Batch>> Get()
         {
-            var batches = getAllBatchesCommand.Execute();
+            var batches = batchRepository.GetAll();
 
             return Ok(batches);
         }
@@ -67,11 +66,12 @@ namespace FELFEL_Inventory.Web_Api.Controllers
 
             try
             {
-                var ResponseModel = registerNewBatchCommand.Execute(RequestModel);
-                return Ok(ResponseModel);
+                var Response = registerNewBatchCommand.Execute(RequestModel);
+                return Ok(Response);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                //TODO: log input that caused an error
                 throw;
             }
         }
@@ -86,6 +86,10 @@ namespace FELFEL_Inventory.Web_Api.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            var allBatches = batchRepository.GetAll();
+            batchRepository.RemoveRange(allBatches);
+
+            batchRepository.Find(batch => batch.ProductType.Id == 1);
         }
     }
 }

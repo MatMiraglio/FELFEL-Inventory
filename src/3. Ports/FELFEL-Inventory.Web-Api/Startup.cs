@@ -1,8 +1,8 @@
 ﻿using FELFEL.External.EntityFrameworkDataAccess;
 using FELFEL.Persistence;
 using FELFEL.UseCases;
-using FELFEL.UseCases.GetAllBatches;
 using FELFEL.UseCases.RegisterNewBatch;
+using FELFEL.UseCases.Repositories;
 using FELFEL.WebApi;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using FELFEL.External.EntityFrameworkDataAccess.Repositories;
 
 namespace FELFEL_Inventory.Web_Api
 {
@@ -33,10 +34,9 @@ namespace FELFEL_Inventory.Web_Api
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddSingleton<IRegisterNewBatch, RegisterNewBatch>();
-            services.AddSingleton<IGetAllBatches, GetAllBatches>();
-
-            services.AddSingleton<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IRegisterNewBatch, RegisterNewBatch>();
+            services.AddScoped<IBatchRepository, BatchRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

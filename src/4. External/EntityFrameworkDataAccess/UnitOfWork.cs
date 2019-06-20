@@ -13,9 +13,11 @@ namespace FELFEL.Persistence
         {
             _context = context;
             Batches = new BatchRepository(_context);
+            Products = new ProductRepository(_context);
         }
 
         public IBatchRepository Batches { get; private set; }
+        public IProductRepository Products { get; private set; }
 
         public int Complete()
         {

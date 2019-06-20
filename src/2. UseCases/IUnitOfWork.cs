@@ -8,6 +8,7 @@ namespace FELFEL.UseCases
     public interface IUnitOfWork
     {
         IBatchRepository Batches { get; }
+        IProductRepository Products { get; }
         int Complete();
     }
 }

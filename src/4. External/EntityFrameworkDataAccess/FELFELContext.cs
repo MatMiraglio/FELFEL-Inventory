@@ -8,5 +8,6 @@ namespace FELFEL.External.EntityFrameworkDataAccess
         public FELFELContext(DbContextOptions options) : base(options) {}
 
         public virtual DbSet<Batch> Batches { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
     }
 }
