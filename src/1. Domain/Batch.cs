@@ -10,6 +10,16 @@ namespace FELFEL.Domain
             History = new HashSet<BatchChange>();
         }
 
+        public Batch(Product product, DateTime expiration, uint unitAmount)
+        {
+            ProductType = product;
+            Expiration = expiration;
+            Arrival = DateTime.Now;
+            OriginalUnitAmount = unitAmount;
+            RemainingUnits = unitAmount;
+            History = new HashSet<BatchChange>();
+        }
+
         public int Id { get; set; }
         public Product ProductType { get; set; }
         public DateTime Expiration { get; set; }

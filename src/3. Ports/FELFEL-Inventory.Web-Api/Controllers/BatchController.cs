@@ -76,26 +76,22 @@ namespace FELFEL_Inventory.Web_Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (newBatch.Expiration < DateTime.Now)
-            {
-                return BadRequest(new { message = "Expiration date cannot be in the past" });
-            }
-
-
-            //After setting up a DI container when can use a framework like automapper for this kind of work
-            var RequestModel = new RegisterNewBatchRequest()
-            {
-                ProductId = newBatch.ProductId,
-                Expiration = newBatch.Expiration,
-                OriginalUnitAmount = newBatch.OriginalUnitAmount
-            };
+            var RequestModel = new RegisterNewBatchRequest(
+                                        newBatch.ProductId, 
+                                        newBatch.Expiration, 
+                                        newBatch.UnitAmount
+                                        );
 
             try
             {
                 var Response = registerNewBatchCommand.Execute(RequestModel);
                 return Ok(Response);
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
             {
                 //TODO: log input that caused an error
                 throw;

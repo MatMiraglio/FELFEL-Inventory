@@ -14,17 +14,19 @@ namespace FELFEL.UseCases.RegisterNewBatch
 
         public Batch Execute(RegisterNewBatchRequest RequestModel)
         {
-            var batch = new Batch()
+            if (RequestModel.Expiration < DateTime.Now)
             {
-                ProductType = new Product
-                {
-                    Id = RequestModel.ProductId,
-                },
-                Expiration = RequestModel.Expiration,
-                Arrival = DateTime.Now,
-                OriginalUnitAmount = RequestModel.OriginalUnitAmount,
-                RemainingUnits = RequestModel.OriginalUnitAmount
-            };
+                throw new ArgumentException($"Cannot register a product that is already expired.");
+            }
+
+            var product = unitOfWork.Products.Get(RequestModel.ProductId);
+
+            if (product == null)
+            {
+                throw new ArgumentException($"Product with Id {RequestModel.ProductId} does not exist.");
+            }
+
+            var batch = new Batch(product, RequestModel.Expiration, RequestModel.UnitAmount);
 
             unitOfWork.Batches.Add(batch);
             unitOfWork.Complete();
