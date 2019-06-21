@@ -18,10 +18,36 @@ namespace FELFEL.Domain
         public uint RemainingUnits { get; set; }
         public BatchState State
         {
-            get { return BatchState.fresh; }
+            get
+            {
+                if (IsExpired)
+                {
+                    return BatchState.expired;
+                }
+                if (ExpirationIsInLessThanDays(14))
+                {
+                    return BatchState.expiring;
+                }
+
+                return BatchState.fresh;
+            }
         }
+
+        public bool IsExpired
+        {
+            get
+            {
+                return Expiration < DateTime.Now;
+            }
+        }
+
         public virtual ICollection<BatchChange> History { get; set; }
 
+
+        private bool ExpirationIsInLessThanDays(int daysInTheFuture)
+        {
+            return Expiration < DateTime.Now.AddDays(daysInTheFuture);
+        }
     }
 
 }
