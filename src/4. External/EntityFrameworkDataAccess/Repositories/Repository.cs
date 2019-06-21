@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 {
     protected readonly DbContext Context;
-    private readonly DbSet<TEntity> _entities;
+    protected readonly DbSet<TEntity> _entities;
 
     public Repository(DbContext context)
     {
@@ -18,7 +18,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 
     public TEntity Get(int id)
     {
-        return Context.Set<TEntity>().Find(id);
+        return _entities.Find(id);
     }
 
     public IEnumerable<TEntity> GetAll()
@@ -28,7 +28,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 
     public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
     {
-        return _entities.Where(predicate);
+        return _entities.Where(predicate).ToList();
     }
 
     public TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
