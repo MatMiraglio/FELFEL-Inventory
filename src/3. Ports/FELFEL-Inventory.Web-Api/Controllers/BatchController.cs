@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using FELFEL.Domain;
+using FELFEL.UseCases.ModifyBatchRemainingUnits;
 using FELFEL.UseCases.RegisterNewBatch;
 using FELFEL.UseCases.Repositories;
-using FELFEL.WebApi.ExternalModels;
+using FELFEL.WebApi.InputModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FELFEL_Inventory.Web_Api.Controllers
@@ -13,37 +15,47 @@ namespace FELFEL_Inventory.Web_Api.Controllers
     public class BatchController : ControllerBase
     {
         private readonly IRegisterNewBatch registerNewBatchCommand;
+        private readonly IModifyBatchRemainingUnits modifyBatchUnitsCommand;
         private readonly IBatchRepository batchRepository;
 
         public BatchController(
             IRegisterNewBatch registerNewBatchCommand,
+            IModifyBatchRemainingUnits modifyNewBatchCommand,
             IBatchRepository batchRepository
             )
         {
             this.registerNewBatchCommand = registerNewBatchCommand;
+            this.modifyBatchUnitsCommand = modifyNewBatchCommand;
             this.batchRepository = batchRepository;
         }
 
 
         // GET api/batch
         [HttpGet]
-        public ActionResult<IEnumerable<Batch>> Get()
+        public async Task<ActionResult<IEnumerable<Batch>>> Get()
         {
-            var batches = batchRepository.GetAll();
+            var batches = await batchRepository.GetBatchesDeatiled();
 
             return Ok(batches);
         }
 
         // GET api/batch/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int batchId)
+        [HttpGet("{batchId}")]
+        public ActionResult<Batch> Get([FromRoute] int batchId)
         {
-            return "value";
+            var batch = batchRepository.Get(batchId);
+
+            if (batch == null)
+            {
+                return NotFound(batchId);
+            }
+
+            return Ok(batch);
         }
 
         // POST api/batch
         [HttpPost]
-        public IActionResult Post([FromBody] NewBatch newBatch)
+        public IActionResult RegisterNewBatch([FromBody] NewBatch newBatch)
         {
             if (!ModelState.IsValid)
             {
@@ -59,7 +71,7 @@ namespace FELFEL_Inventory.Web_Api.Controllers
             //After setting up a DI container when can use a framework like automapper for this kind of work
             var RequestModel = new RegisterNewBatchRequest()
             {
-                ProductType = newBatch.ProductType,
+                ProductId = newBatch.ProductId,
                 Expiration = newBatch.Expiration,
                 OriginalUnitAmount = newBatch.OriginalUnitAmount
             };
@@ -76,20 +88,20 @@ namespace FELFEL_Inventory.Web_Api.Controllers
             }
         }
 
-        // PUT api/batch/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // PATCH api/batch/5
+        [HttpPatch("{batchId}")]
+        public IActionResult ChangeBatchRemainingUnits([FromRoute] uint batchId, [FromBody] ChangeBatchUnits changeRequest)
         {
-        }
+            var requestModel = new ModifyBatchRemainingUnitsRequest
+            {
+                BatchId = batchId,
+                NewUnitAmount = changeRequest.NewUnitAmount,
+                ReasonForChange = changeRequest.ReasonForChange
+            };
 
-        // DELETE api/batch/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            var allBatches = batchRepository.GetAll();
-            batchRepository.RemoveRange(allBatches);
+            var modifiedBatch = modifyBatchUnitsCommand.Execute(requestModel);
 
-            batchRepository.Find(batch => batch.ProductType.Id == 1);
+            return Ok(modifiedBatch);
         }
     }
 }
