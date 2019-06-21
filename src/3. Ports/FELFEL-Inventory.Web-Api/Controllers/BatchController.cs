@@ -32,7 +32,7 @@ namespace FELFEL_Inventory.Web_Api.Controllers
 
         // GET api/batch
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Batch>>> Get()
+        public async Task<ActionResult<IEnumerable<Batch>>> GetAllBatch()
         {
             var batches = await batchRepository.GetBatchesDeatiled();
 
@@ -41,7 +41,21 @@ namespace FELFEL_Inventory.Web_Api.Controllers
 
         // GET api/batch/5
         [HttpGet("{batchId}")]
-        public ActionResult<Batch> Get([FromRoute] int batchId)
+        public ActionResult<Batch> GetBatch([FromRoute] int batchId) 
+        {
+            var batch = batchRepository.Get(batchId);
+
+            if (batch == null)
+            {
+                return NotFound(batchId);
+            }
+
+            return Ok(batch);
+        }
+
+        // GET api/batch/history/5
+        [HttpGet("history/{batchId}")]
+        public ActionResult<Batch> GetBatchHistory([FromRoute] int batchId)
         {
             var batch = batchRepository.Get(batchId);
 
