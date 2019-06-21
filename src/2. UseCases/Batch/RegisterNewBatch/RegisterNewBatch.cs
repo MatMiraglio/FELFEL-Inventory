@@ -16,16 +16,15 @@ namespace FELFEL.UseCases.RegisterNewBatch
         {
             var batch = new Batch()
             {
-                ProductType = RequestModel.ProductType,
+                ProductType = new Product
+                {
+                    Id = RequestModel.ProductId,
+                },
                 Expiration = RequestModel.Expiration,
                 Arrival = DateTime.Now,
                 OriginalUnitAmount = RequestModel.OriginalUnitAmount,
                 RemainingUnits = RequestModel.OriginalUnitAmount
             };
-            if (unitOfWork.Products.Get(RequestModel.ProductType.Id) == null)
-            {
-                unitOfWork.Products.Add(RequestModel.ProductType);
-            }
 
             unitOfWork.Batches.Add(batch);
             unitOfWork.Complete();
