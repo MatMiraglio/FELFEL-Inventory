@@ -36,11 +36,13 @@ namespace FELFEL.WebApi
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddScoped<IRegisterNewBatch, RegisterNewBatch>();
-            services.AddScoped<IModifyBatchStock, ModifyBatchStock>();
-            services.AddScoped<IGetFreshnessOverview, GetFreshnessOverview>();
-            services.AddScoped<IBatchRepository, BatchRepository>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddDIConfig();
+
+            //services.AddScoped<IRegisterNewBatch, RegisterNewBatch>();
+            //services.AddScoped<IModifyBatchStock, ModifyBatchStock>();
+            //services.AddScoped<IGetFreshnessOverview, GetFreshnessOverview>();
+            //services.AddScoped<IBatchRepository, BatchRepository>();
+            //services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
