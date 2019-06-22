@@ -9,6 +9,7 @@ namespace FELFEL.UseCases
     {
         IBatchRepository Batches { get; }
         IProductRepository Products { get; }
+        IBatchStockChangeRepository StockChanges { get; }
         int Complete();
     }
 }
