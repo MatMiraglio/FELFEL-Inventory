@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace FELFEL_Inventory.Web_Api
+namespace FELFEL.WebApi
 {
     public class Program
     {

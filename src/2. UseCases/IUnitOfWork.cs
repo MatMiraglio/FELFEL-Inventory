@@ -1,7 +1,5 @@
 ﻿using FELFEL.UseCases.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace FELFEL.UseCases
 {
@@ -10,6 +8,6 @@ namespace FELFEL.UseCases
         IBatchRepository Batches { get; }
         IProductRepository Products { get; }
         IBatchStockChangeRepository StockChanges { get; }
-        int Complete();
+        Task<int> CompleteAsync();
     }
 }

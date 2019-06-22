@@ -20,7 +20,7 @@ namespace FELFEL.UseCases.GetFreshnessOverview
 
         public async Task<FreshnessOverview> ExecuteAsync()
         {
-            IEnumerable<Batch> batches = await batchRepository.GetBatchesDeatiled();
+            IEnumerable<Batch> batches = await batchRepository.GetBatchesDeatiledAsync();
 
             int expiredCount = batches.Where(batch => batch.IsExpired).Count();
             int freshCount = batches.Where(batch => batch.State == BatchState.fresh).Count();

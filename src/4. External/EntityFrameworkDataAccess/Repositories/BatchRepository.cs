@@ -15,12 +15,12 @@ namespace FELFEL.External.EntityFrameworkDataAccess.Repositories
 
         }
 
-        public IEnumerable<Batch> GetInventoryPerProduct(int productId)
+        public async Task<IEnumerable<Batch>> GetInventoryPerProduct(int productId)
         {
-            return Find(batch => batch.ProductType.Id == productId);
+            return await FindAsync(batch => batch.ProductType.Id == productId);
         }
 
-        public async Task<IEnumerable<Batch>> GetBatchesDeatiled()
+        public async Task<IEnumerable<Batch>> GetBatchesDeatiledAsync()
         {
              return await _entities
                 .Include(x => x.ProductType)
@@ -28,14 +28,14 @@ namespace FELFEL.External.EntityFrameworkDataAccess.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Batch> GetBatchDeatiled(uint batchId)
+        public async Task<Batch> GetBatchDeatiledAsync(uint batchId)
         {
             return await _entities
                .Include(x => x.ProductType)
                .SingleOrDefaultAsync(batch => batch.Id == batchId);
         }
 
-        public async Task<Batch> GetBatchWithHistory(uint batchId)
+        public async Task<Batch> GetBatchWithHistoryAsync(uint batchId)
         {
             return await _entities
                .Include(x => x.ProductType)

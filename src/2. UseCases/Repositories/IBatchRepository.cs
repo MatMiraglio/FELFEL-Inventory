@@ -8,9 +8,9 @@ namespace FELFEL.UseCases.Repositories
 {
     public interface IBatchRepository : IRepository<Batch>
     {
-        IEnumerable<Batch> GetInventoryPerProduct(int productId);
-        Task<IEnumerable<Batch>> GetBatchesDeatiled();
-        Task<Batch> GetBatchDeatiled(uint batchId);
-        Task<Batch> GetBatchWithHistory(uint batchId);
+        Task<IEnumerable<Batch>> GetInventoryPerProduct(int productId);
+        Task<IEnumerable<Batch>> GetBatchesDeatiledAsync();
+        Task<Batch> GetBatchDeatiledAsync(uint batchId);
+        Task<Batch> GetBatchWithHistoryAsync(uint batchId);
     }
 }

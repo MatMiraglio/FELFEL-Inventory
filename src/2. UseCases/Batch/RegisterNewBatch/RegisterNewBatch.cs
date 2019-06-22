@@ -1,6 +1,7 @@
 ﻿using FELFEL.Domain;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FELFEL.UseCases.RegisterNewBatch
 {
@@ -13,14 +14,14 @@ namespace FELFEL.UseCases.RegisterNewBatch
             this.unitOfWork = unitOfWork;
         }
 
-        public Batch Execute(RegisterNewBatchRequest RequestModel)
+        public async Task<Batch> Async(RegisterNewBatchRequest RequestModel)
         {
             if (RequestModel.Expiration < DateTime.Now)
             {
                 throw new ArgumentException($"Cannot register a product that is already expired.");
             }
 
-            var product = unitOfWork.Products.Get(RequestModel.ProductId);
+            var product = await unitOfWork.Products.GetAsync(RequestModel.ProductId);
 
             if (product == null)
             {
@@ -30,7 +31,7 @@ namespace FELFEL.UseCases.RegisterNewBatch
             var batch = new Batch(product, RequestModel.Expiration, RequestModel.UnitAmount);
 
             unitOfWork.Batches.Add(batch);
-            unitOfWork.Complete();
+            await unitOfWork.CompleteAsync();
 
             return batch;
         }

@@ -8,7 +8,7 @@ using FELFEL.UseCases.Repositories;
 using FELFEL.WebApi.InputModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FELFEL_Inventory.Web_Api.Controllers
+namespace FELFEL.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -34,16 +34,16 @@ namespace FELFEL_Inventory.Web_Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Batch>>> GetAllBatches()
         {
-            var batches = await batchRepository.GetBatchesDeatiled();
+            var batches = await batchRepository.GetBatchesDeatiledAsync();
 
             return Ok(batches);
         }
 
         // GET api/batch/5
         [HttpGet("{batchId}")]
-        public ActionResult<Batch> GetBatch([FromRoute] uint batchId) 
+        public async Task<IActionResult> GetBatch([FromRoute] uint batchId) 
         {
-            var batch = batchRepository.GetBatchDeatiled(batchId);
+            var batch = await batchRepository.GetBatchDeatiledAsync(batchId);
 
             if (batch == null)
             {
@@ -55,9 +55,9 @@ namespace FELFEL_Inventory.Web_Api.Controllers
 
         // GET api/batch/history/5
         [HttpGet("history/{batchId}")]
-        public ActionResult<Batch> GetBatchHistory([FromRoute] uint batchId)
+        public async Task<IActionResult> GetBatchHistory([FromRoute] uint batchId)
         {
-            var batch = batchRepository.GetBatchWithHistory(batchId);
+            var batch = await batchRepository.GetBatchWithHistoryAsync(batchId);
 
             if (batch == null)
             {
@@ -69,7 +69,7 @@ namespace FELFEL_Inventory.Web_Api.Controllers
 
         // POST api/batch
         [HttpPost]
-        public IActionResult RegisterNewBatch([FromBody] NewBatch newBatch)
+        public async Task<IActionResult> RegisterNewBatch([FromBody] NewBatch newBatch)
         {
             if (!ModelState.IsValid)
             {
@@ -84,8 +84,8 @@ namespace FELFEL_Inventory.Web_Api.Controllers
 
             try
             {
-                var Response = registerNewBatch.Execute(RequestModel);
-                return CreatedAtAction(nameof(GetBatch) ,new { Id = Response.Id }, Response);
+                var Response = await registerNewBatch.Async(RequestModel);
+                return CreatedAtAction(nameof(GetBatch) , new { Response.Id }, Response);
             }
             catch (KeyNotFoundException ex)
             {
@@ -104,7 +104,7 @@ namespace FELFEL_Inventory.Web_Api.Controllers
 
         // PATCH api/batch/5
         [HttpPatch("{batchId}")]
-        public IActionResult ModifyBatchStock([FromRoute] uint batchId, [FromBody] BatchStockModification changeRequest)
+        public async Task<IActionResult> ModifyBatchStock([FromRoute] uint batchId, [FromBody] BatchStockModification changeRequest)
         {
             var requestModel = new ModifyBatchStockRequest
             {
@@ -117,7 +117,7 @@ namespace FELFEL_Inventory.Web_Api.Controllers
 
             try
             {
-                modifiedBatch = modifyBatchStock.Execute(requestModel);
+                modifiedBatch = await modifyBatchStock.ExecuteAsync(requestModel);
                 return Ok(modifiedBatch);
             }
             catch(KeyNotFoundException ex)

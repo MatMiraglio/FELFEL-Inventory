@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FELFEL.UseCases.RegisterNewBatch
 {
     public interface IRegisterNewBatch
     {
-        Batch Execute(RegisterNewBatchRequest RequestModel);
+        Task<Batch> Async(RegisterNewBatchRequest RequestModel);
     }
 }

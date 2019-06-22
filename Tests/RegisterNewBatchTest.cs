@@ -29,8 +29,8 @@ namespace Inventory.test
             };
 
             mock.Setup(x => x.Batches).Returns(repoMock.Object);
-            mock.Setup(x => x.Products.Get(2)).Returns((Product) null);
-            mock.Setup(x => x.Products.Get(1)).Returns(product);
+            mock.Setup(x => x.Products.GetAsync(2)).ReturnsAsync((Product) null);
+            mock.Setup(x => x.Products.GetAsync(1)).ReturnsAsync(product);
 
 
             registerCommand = new RegisterNewBatch(mock.Object);
@@ -46,8 +46,8 @@ namespace Inventory.test
         {
             var RequestModel = new RegisterNewBatchRequest(1, DateTime.Today.AddDays(-1), 100);
 
-            Assert.Throws<ArgumentException>(() => registerCommand.Execute(RequestModel));
-            mock.Verify(m => m.Complete(), Times.Never);
+            Assert.ThrowsAsync<ArgumentException>(() => registerCommand.Async(RequestModel));
+            mock.Verify(m => m.CompleteAsync(), Times.Never);
         }
 
         [Fact]
@@ -55,17 +55,17 @@ namespace Inventory.test
         {
             var RequestModel = new RegisterNewBatchRequest(2, DateTime.Today.AddDays(20), 100);
 
-            Assert.Throws<KeyNotFoundException>(() => registerCommand.Execute(RequestModel));
-            mock.Verify(m => m.Complete(), Times.Never);
+            Assert.ThrowsAsync<KeyNotFoundException>(() => registerCommand.Async(RequestModel));
+            mock.Verify(m => m.CompleteAsync(), Times.Never);
         }
 
         [Fact]
         public void Execute_ShouldRegisterBatch()
         {
             var RequestModel = new RegisterNewBatchRequest(1, DateTime.Today.AddDays(20), 100);
-            var batch = registerCommand.Execute(RequestModel);
+            var batch = registerCommand.Async(RequestModel);
 
-            mock.Verify(m => m.Complete(), Times.Once);
+            mock.Verify(m => m.CompleteAsync(), Times.Once);
 
             Assert.NotNull(batch);
         }

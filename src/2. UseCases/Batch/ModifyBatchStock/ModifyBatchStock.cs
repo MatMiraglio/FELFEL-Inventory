@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using FELFEL.Domain;
 
 namespace FELFEL.UseCases.ModifyBatchStock
@@ -14,11 +15,11 @@ namespace FELFEL.UseCases.ModifyBatchStock
             this.unitOfWork = unitOfWork;
         } 
 
-        public Batch Execute(ModifyBatchStockRequest RequestModel)
+        public async Task<Batch> ExecuteAsync(ModifyBatchStockRequest RequestModel)
         {
             Validate(RequestModel);
 
-            var batch = unitOfWork.Batches.SingleOrDefault(x => x.Id == RequestModel.BatchId);
+            var batch = await unitOfWork.Batches.SingleOrDefaultAsync(x => x.Id == RequestModel.BatchId);
 
             if (batch == null)
             {
@@ -32,7 +33,7 @@ namespace FELFEL.UseCases.ModifyBatchStock
             batch.RemainingUnits = RequestModel.NewUnitAmount;
             batch.History.Add(StockChange);
 
-            unitOfWork.Complete();
+            await unitOfWork.CompleteAsync();
 
             return batch;
         }

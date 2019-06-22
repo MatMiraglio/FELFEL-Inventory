@@ -1,10 +1,10 @@
 ﻿using FELFEL.Domain;
-using FELFEL.UseCases.ModifyBatchStock;
+using System.Threading.Tasks;
 
 namespace FELFEL.UseCases.ModifyBatchStock
 {
     public interface IModifyBatchStock
     {
-        Batch Execute(ModifyBatchStockRequest RequestModel);
+        Task<Batch> ExecuteAsync(ModifyBatchStockRequest RequestModel);
     }
 }

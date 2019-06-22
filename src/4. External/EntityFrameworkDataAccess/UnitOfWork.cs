@@ -2,6 +2,7 @@
 using FELFEL.External.EntityFrameworkDataAccess.Repositories;
 using FELFEL.UseCases;
 using FELFEL.UseCases.Repositories;
+using System.Threading.Tasks;
 
 namespace FELFEL.Persistence
 {
@@ -21,9 +22,9 @@ namespace FELFEL.Persistence
         public IProductRepository Products { get; private set; }
         public IBatchStockChangeRepository StockChanges { get; private set; }
 
-        public int Complete()
+        public async Task<int> CompleteAsync()
         {
-            return _context.SaveChanges();
+            return await _context.SaveChangesAsync();
         }
 
         public void Dispose()

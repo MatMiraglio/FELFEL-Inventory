@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 {
@@ -16,24 +17,24 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
         _entities = Context.Set<TEntity>();
     }
 
-    public TEntity Get(int id)
+    public async Task<TEntity> GetAsync(int id)
     {
-        return _entities.Find(id);
+        return await _entities.FindAsync(id);
     }
 
-    public IEnumerable<TEntity> GetAll()
+    public async Task<IEnumerable<TEntity>> GetAllAsync()
     {
-        return _entities.ToList();
+        return await _entities.ToListAsync();
     }
 
-    public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
+    public async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
     {
-        return _entities.Where(predicate).ToList();
+        return await _entities.Where(predicate).ToListAsync();
     }
 
-    public TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
+    public async Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
     {
-        return _entities.SingleOrDefault(predicate);
+        return await _entities.SingleOrDefaultAsync(predicate);
     }
 
     public void Add(TEntity entity)

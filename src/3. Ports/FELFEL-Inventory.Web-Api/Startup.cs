@@ -14,7 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using FELFEL.External.EntityFrameworkDataAccess.Repositories;
 using FELFEL.UseCases.GetFreshnessOverview;
 
-namespace FELFEL_Inventory.Web_Api
+namespace FELFEL.WebApi
 {
     public class Startup
     {
