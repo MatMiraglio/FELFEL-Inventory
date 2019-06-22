@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FELFEL.Domain;
-using FELFEL.UseCases.ModifyBatchRemainingUnits;
+using FELFEL.UseCases.ModifyBatchStock;
 using FELFEL.UseCases.RegisterNewBatch;
 using FELFEL.UseCases.Repositories;
 using FELFEL.WebApi.InputModels;
@@ -15,17 +15,17 @@ namespace FELFEL_Inventory.Web_Api.Controllers
     public class BatchController : ControllerBase
     {
         private readonly IRegisterNewBatch registerNewBatchCommand;
-        private readonly IModifyBatchRemainingUnits modifyBatchUnitsCommand;
+        private readonly IModifyBatchStock modifyBatchStock;
         private readonly IBatchRepository batchRepository;
 
         public BatchController(
             IRegisterNewBatch registerNewBatchCommand,
-            IModifyBatchRemainingUnits modifyNewBatchCommand,
+            IModifyBatchStock modifyNewBatchCommand,
             IBatchRepository batchRepository
             )
         {
             this.registerNewBatchCommand = registerNewBatchCommand;
-            this.modifyBatchUnitsCommand = modifyNewBatchCommand;
+            this.modifyBatchStock = modifyNewBatchCommand;
             this.batchRepository = batchRepository;
         }
 
@@ -87,6 +87,10 @@ namespace FELFEL_Inventory.Web_Api.Controllers
                 var Response = registerNewBatchCommand.Execute(RequestModel);
                 return Ok(Response);
             }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { ex.Message });
+            }
             catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
@@ -100,18 +104,34 @@ namespace FELFEL_Inventory.Web_Api.Controllers
 
         // PATCH api/batch/5
         [HttpPatch("{batchId}")]
-        public IActionResult ChangeBatchRemainingUnits([FromRoute] uint batchId, [FromBody] ChangeBatchUnits changeRequest)
+        public IActionResult ModifyBatchStock([FromRoute] uint batchId, [FromBody] BatchStockModification changeRequest)
         {
-            var requestModel = new ModifyBatchRemainingUnitsRequest
+            var requestModel = new ModifyBatchStockRequest
             {
                 BatchId = batchId,
                 NewUnitAmount = changeRequest.NewUnitAmount,
                 ReasonForChange = changeRequest.ReasonForChange
             };
 
-            var modifiedBatch = modifyBatchUnitsCommand.Execute(requestModel);
+            Batch modifiedBatch;
 
-            return Ok(modifiedBatch);
+            try
+            {
+                modifiedBatch = modifyBatchStock.Execute(requestModel);
+                return Ok(modifiedBatch);
+            }
+            catch(KeyNotFoundException ex)
+            {
+                return NotFound(new {ex.Message});
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
