@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FELFEL-Inventory.Web-Api", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FELFEL-Inventory.External", "4. External\FELFEL-Inventory.External.csproj", "{56477107-B0F9-4512-87E1-156CC28A3CBD}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.test", "..\Tests\Inventory.test.csproj", "{A42C9234-765C-4B9E-AB40-83885EF5EEC6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{56477107-B0F9-4512-87E1-156CC28A3CBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56477107-B0F9-4512-87E1-156CC28A3CBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56477107-B0F9-4512-87E1-156CC28A3CBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A42C9234-765C-4B9E-AB40-83885EF5EEC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A42C9234-765C-4B9E-AB40-83885EF5EEC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A42C9234-765C-4B9E-AB40-83885EF5EEC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A42C9234-765C-4B9E-AB40-83885EF5EEC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
