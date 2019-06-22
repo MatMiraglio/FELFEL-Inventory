@@ -14,25 +14,25 @@ namespace FELFEL_Inventory.Web_Api.Controllers
     [ApiController]
     public class BatchController : ControllerBase
     {
-        private readonly IRegisterNewBatch registerNewBatchCommand;
+        private readonly IRegisterNewBatch registerNewBatch;
         private readonly IModifyBatchStock modifyBatchStock;
         private readonly IBatchRepository batchRepository;
 
         public BatchController(
-            IRegisterNewBatch registerNewBatchCommand,
-            IModifyBatchStock modifyNewBatchCommand,
+            IRegisterNewBatch registerNewBatch,
+            IModifyBatchStock modifyNewBatch,
             IBatchRepository batchRepository
             )
         {
-            this.registerNewBatchCommand = registerNewBatchCommand;
-            this.modifyBatchStock = modifyNewBatchCommand;
+            this.registerNewBatch = registerNewBatch;
+            this.modifyBatchStock = modifyNewBatch;
             this.batchRepository = batchRepository;
         }
 
 
         // GET api/batch
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Batch>>> GetAllBatch()
+        public async Task<ActionResult<IEnumerable<Batch>>> GetAllBatches()
         {
             var batches = await batchRepository.GetBatchesDeatiled();
 
@@ -41,9 +41,9 @@ namespace FELFEL_Inventory.Web_Api.Controllers
 
         // GET api/batch/5
         [HttpGet("{batchId}")]
-        public ActionResult<Batch> GetBatch([FromRoute] int batchId) 
+        public ActionResult<Batch> GetBatch([FromRoute] uint batchId) 
         {
-            var batch = batchRepository.Get(batchId);
+            var batch = batchRepository.GetBatchDeatiled(batchId);
 
             if (batch == null)
             {
@@ -55,9 +55,9 @@ namespace FELFEL_Inventory.Web_Api.Controllers
 
         // GET api/batch/history/5
         [HttpGet("history/{batchId}")]
-        public ActionResult<Batch> GetBatchHistory([FromRoute] int batchId)
+        public ActionResult<Batch> GetBatchHistory([FromRoute] uint batchId)
         {
-            var batch = batchRepository.Get(batchId);
+            var batch = batchRepository.GetBatchWithHistory(batchId);
 
             if (batch == null)
             {
@@ -84,12 +84,12 @@ namespace FELFEL_Inventory.Web_Api.Controllers
 
             try
             {
-                var Response = registerNewBatchCommand.Execute(RequestModel);
+                var Response = registerNewBatch.Execute(RequestModel);
                 return Ok(Response);
             }
             catch (KeyNotFoundException ex)
             {
-                return NotFound(new { ex.Message });
+                return NotFound(ex.Message);
             }
             catch (ArgumentException ex)
             {
@@ -122,7 +122,7 @@ namespace FELFEL_Inventory.Web_Api.Controllers
             }
             catch(KeyNotFoundException ex)
             {
-                return NotFound(new {ex.Message});
+                return NotFound(ex.Message);
             }
             catch (ArgumentException ex)
             {
