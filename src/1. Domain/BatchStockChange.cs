@@ -4,8 +4,16 @@ using System.Text;
 
 namespace FELFEL.Domain
 {
-    public class BatchChange
+    public class BatchStockChange
     {
+        public BatchStockChange(Batch batch, uint oldAmount, uint newAmount)
+        {
+            Batch = batch;
+            OldAmount = oldAmount;
+            NewAmount = newAmount;
+            TimeOfChange = DateTime.Now;
+        }
+
         public int ID { get; set; }
         public Batch Batch { get; set; }
         public uint OldAmount { get; set; }

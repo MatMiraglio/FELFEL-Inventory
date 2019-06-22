@@ -7,7 +7,7 @@ namespace FELFEL.Domain
     {
         public Batch()
         {
-            History = new HashSet<BatchChange>();
+            History = new HashSet<BatchStockChange>();
         }
 
         public Batch(Product product, DateTime expiration, uint unitAmount)
@@ -17,7 +17,7 @@ namespace FELFEL.Domain
             Arrival = DateTime.Now;
             OriginalUnitAmount = unitAmount;
             RemainingUnits = unitAmount;
-            History = new HashSet<BatchChange>();
+            History = new HashSet<BatchStockChange>();
         }
 
         public int Id { get; set; }
@@ -51,7 +51,7 @@ namespace FELFEL.Domain
             }
         }
 
-        public virtual ICollection<BatchChange> History { get; set; }
+        public virtual ICollection<BatchStockChange> History { get; set; }
 
 
         private bool ExpirationIsInLessThanDays(int daysInTheFuture)

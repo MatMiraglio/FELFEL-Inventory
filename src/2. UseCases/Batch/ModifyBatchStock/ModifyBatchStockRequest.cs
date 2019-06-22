@@ -1,6 +1,6 @@
-﻿namespace FELFEL.UseCases.ModifyBatchRemainingUnits
+﻿namespace FELFEL.UseCases.ModifyBatchStock
 {
-    public class ModifyBatchRemainingUnitsRequest
+    public class ModifyBatchStockRequest
     {
         public uint BatchId { get; set; }
         public uint NewUnitAmount { get; set; }
