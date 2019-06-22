@@ -14,6 +14,8 @@ namespace FELFEL.Domain
             TimeOfChange = DateTime.Now;
         }
 
+        public BatchStockChange() {}
+
         public int ID { get; set; }
         public Batch Batch { get; set; }
         public uint OldAmount { get; set; }
