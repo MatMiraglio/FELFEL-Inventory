@@ -19,14 +19,14 @@ namespace FELFEL_Inventory.Web_Api.Controllers
         private readonly IBatchRepository batchRepository;
 
         public BatchController(
+            IBatchRepository batchRepository,
             IRegisterNewBatch registerNewBatch,
-            IModifyBatchStock modifyNewBatch,
-            IBatchRepository batchRepository
+            IModifyBatchStock modifyBatchStock
             )
         {
-            this.registerNewBatch = registerNewBatch;
-            this.modifyBatchStock = modifyNewBatch;
             this.batchRepository = batchRepository;
+            this.registerNewBatch = registerNewBatch;
+            this.modifyBatchStock = modifyBatchStock;
         }
 
 
@@ -61,7 +61,7 @@ namespace FELFEL_Inventory.Web_Api.Controllers
 
             if (batch == null)
             {
-                return NotFound(batchId);
+                return NotFound($"could not find batch {batchId}");
             }
 
             return Ok(batch);
@@ -85,7 +85,7 @@ namespace FELFEL_Inventory.Web_Api.Controllers
             try
             {
                 var Response = registerNewBatch.Execute(RequestModel);
-                return Ok(Response);
+                return CreatedAtAction(nameof(GetBatch) ,new { Id = Response.Id }, Response);
             }
             catch (KeyNotFoundException ex)
             {

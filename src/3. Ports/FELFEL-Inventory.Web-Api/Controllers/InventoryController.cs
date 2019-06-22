@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using FELFEL.UseCases.GetFreshnessOverview;
 using FELFEL.UseCases.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,12 +12,15 @@ namespace FELFEL.WebApi.Controllers
     public class InventoryController : ControllerBase
     {
         private readonly IBatchRepository batchRepository;
+        private readonly IGetFreshnessOverview getFreshnessOverview;
 
         public InventoryController(
-            IBatchRepository batchRepository
+            IBatchRepository batchRepository,
+            IGetFreshnessOverview getFreshnessOverview
             )
         {
             this.batchRepository = batchRepository;
+            this.getFreshnessOverview = getFreshnessOverview;
         }
 
         // GET api/inventory/5
@@ -33,11 +34,11 @@ namespace FELFEL.WebApi.Controllers
 
         // GET api/inventory/freshness
         [HttpGet("/freshness")]
-        public IActionResult GetInventoryFreshnessOverview()
+        public async Task<IActionResult> GetInventoryFreshnessOverview()
         {
-            var batches = batchRepository.GetAll();
+            var overview = await getFreshnessOverview.ExecuteAsync();
 
-            return Ok(batches);
+            return Ok(overview);
         }
     }
 }

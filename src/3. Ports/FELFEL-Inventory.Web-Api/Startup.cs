@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using FELFEL.External.EntityFrameworkDataAccess.Repositories;
+using FELFEL.UseCases.GetFreshnessOverview;
 
 namespace FELFEL_Inventory.Web_Api
 {
@@ -37,6 +38,7 @@ namespace FELFEL_Inventory.Web_Api
 
             services.AddScoped<IRegisterNewBatch, RegisterNewBatch>();
             services.AddScoped<IModifyBatchStock, ModifyBatchStock>();
+            services.AddScoped<IGetFreshnessOverview, GetFreshnessOverview>();
             services.AddScoped<IBatchRepository, BatchRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
