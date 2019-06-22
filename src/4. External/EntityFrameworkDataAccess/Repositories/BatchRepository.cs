@@ -23,6 +23,7 @@ namespace FELFEL.External.EntityFrameworkDataAccess.Repositories
         public async Task<IEnumerable<Batch>> GetBatchesDeatiledAsync()
         {
              return await _entities
+                .AsNoTracking()
                 .Include(x => x.ProductType)
                 .Include(x => x.History)
                 .ToListAsync();
@@ -31,6 +32,7 @@ namespace FELFEL.External.EntityFrameworkDataAccess.Repositories
         public async Task<Batch> GetBatchDeatiledAsync(uint batchId)
         {
             return await _entities
+               .AsNoTracking()
                .Include(x => x.ProductType)
                .SingleOrDefaultAsync(batch => batch.Id == batchId);
         }
@@ -38,6 +40,7 @@ namespace FELFEL.External.EntityFrameworkDataAccess.Repositories
         public async Task<Batch> GetBatchWithHistoryAsync(uint batchId)
         {
             return await _entities
+               .AsNoTracking()
                .Include(x => x.ProductType)
                .Include(x => x.History)
                .SingleOrDefaultAsync(batch => batch.Id == batchId);

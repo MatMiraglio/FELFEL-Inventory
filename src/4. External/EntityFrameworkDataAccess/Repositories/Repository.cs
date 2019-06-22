@@ -24,17 +24,17 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 
     public async Task<IEnumerable<TEntity>> GetAllAsync()
     {
-        return await _entities.ToListAsync();
+        return await _entities.AsNoTracking().ToListAsync();
     }
 
     public async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
     {
-        return await _entities.Where(predicate).ToListAsync();
+        return await _entities.AsNoTracking().Where(predicate).ToListAsync();
     }
 
     public async Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
     {
-        return await _entities.SingleOrDefaultAsync(predicate);
+        return await _entities.AsNoTracking().SingleOrDefaultAsync(predicate);
     }
 
     public void Add(TEntity entity)
