@@ -29,7 +29,7 @@ namespace FELFEL.WebApi
                     Arrival = new DateTime(2018, 6, 1),
                     OriginalUnitAmount = 400,
                     RemainingUnits = 200,
-                    History = new HashSet<BatchChange>()
+                    History = new HashSet<BatchStockChange>()
                 }, new Batch
                 {
                     ProductType = new Product
@@ -40,7 +40,7 @@ namespace FELFEL.WebApi
                     Arrival = new DateTime(2018, 6, 1),
                     OriginalUnitAmount = 400,
                     RemainingUnits = 200,
-                    History = new HashSet<BatchChange>()
+                    History = new HashSet<BatchStockChange>()
                 }, new Batch
                 {
                     ProductType = new Product
@@ -51,7 +51,7 @@ namespace FELFEL.WebApi
                     Arrival = new DateTime(2018, 6, 1),
                     OriginalUnitAmount = 400,
                     RemainingUnits = 200,
-                    History = new HashSet<BatchChange>()
+                    History = new HashSet<BatchStockChange>()
                 }, new Batch
                 {
                     ProductType = new Product
@@ -62,7 +62,7 @@ namespace FELFEL.WebApi
                     Arrival = new DateTime(2018, 6, 1),
                     OriginalUnitAmount = 400,
                     RemainingUnits = 200,
-                    History = new HashSet<BatchChange>()
+                    History = new HashSet<BatchStockChange>()
                 });
                 context.SaveChanges();
             }

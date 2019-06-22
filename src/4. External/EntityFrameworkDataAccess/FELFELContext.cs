@@ -9,6 +9,6 @@ namespace FELFEL.External.EntityFrameworkDataAccess
 
         public virtual DbSet<Batch> Batches { get; set; }
         public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<BatchChange> BatchChanges { get; set; }
+        public virtual DbSet<BatchStockChange> BatchChanges { get; set; }
     }
 }

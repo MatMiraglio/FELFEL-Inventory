@@ -1,5 +1,6 @@
 ﻿using FELFEL.Domain;
 using System;
+using System.Collections.Generic;
 
 namespace FELFEL.UseCases.RegisterNewBatch
 {
@@ -23,7 +24,7 @@ namespace FELFEL.UseCases.RegisterNewBatch
 
             if (product == null)
             {
-                throw new ArgumentException($"Product with Id {RequestModel.ProductId} does not exist.");
+                throw new KeyNotFoundException($"Product with Id {RequestModel.ProductId} does not exist.");
             }
 
             var batch = new Batch(product, RequestModel.Expiration, RequestModel.UnitAmount);

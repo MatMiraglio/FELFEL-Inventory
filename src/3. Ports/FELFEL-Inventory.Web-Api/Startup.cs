@@ -2,7 +2,7 @@
 using FELFEL.Persistence;
 using FELFEL.UseCases;
 using FELFEL.UseCases.RegisterNewBatch;
-using FELFEL.UseCases.ModifyBatchRemainingUnits;
+using FELFEL.UseCases.ModifyBatchStock;
 using FELFEL.UseCases.Repositories;
 using FELFEL.WebApi;
 using Microsoft.AspNetCore.Builder;
@@ -36,7 +36,7 @@ namespace FELFEL_Inventory.Web_Api
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddScoped<IRegisterNewBatch, RegisterNewBatch>();
-            services.AddScoped<IModifyBatchRemainingUnits, ModifyBatchRemainingUnits>();
+            services.AddScoped<IModifyBatchStock, ModifyBatchStock>();
             services.AddScoped<IBatchRepository, BatchRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
