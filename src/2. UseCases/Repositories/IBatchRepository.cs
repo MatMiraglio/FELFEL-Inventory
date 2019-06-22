@@ -10,5 +10,7 @@ namespace FELFEL.UseCases.Repositories
     {
         IEnumerable<Batch> GetInventoryPerProduct(int productId);
         Task<IEnumerable<Batch>> GetBatchesDeatiled();
+        Task<Batch> GetBatchDeatiled(uint batchId);
+        Task<Batch> GetBatchWithHistory(uint batchId);
     }
 }

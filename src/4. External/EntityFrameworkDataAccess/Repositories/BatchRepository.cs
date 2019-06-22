@@ -28,5 +28,19 @@ namespace FELFEL.External.EntityFrameworkDataAccess.Repositories
                 .ToListAsync();
         }
 
+        public async Task<Batch> GetBatchDeatiled(uint batchId)
+        {
+            return await _entities
+               .Include(x => x.ProductType)
+               .SingleOrDefaultAsync(batch => batch.Id == batchId);
+        }
+
+        public async Task<Batch> GetBatchWithHistory(uint batchId)
+        {
+            return await _entities
+               .Include(x => x.ProductType)
+               .Include(x => x.History)
+               .SingleOrDefaultAsync(batch => batch.Id == batchId);
+        }
     }
 }
