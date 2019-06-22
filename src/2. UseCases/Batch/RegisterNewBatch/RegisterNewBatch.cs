@@ -9,12 +9,14 @@ namespace FELFEL.UseCases.RegisterNewBatch
     {
         private readonly IUnitOfWork unitOfWork;
 
+        public event EventHandler<BatchEventArgs> BatchRegistered;
+
         public RegisterNewBatch(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task<Batch> Async(RegisterNewBatchRequest RequestModel)
+        public async Task<Batch> ExecuteAsync(RegisterNewBatchRequest RequestModel)
         {
             if (RequestModel.Expiration < DateTime.Now)
             {
@@ -33,7 +35,19 @@ namespace FELFEL.UseCases.RegisterNewBatch
             unitOfWork.Batches.Add(batch);
             await unitOfWork.CompleteAsync();
 
+            OnBatchRegistered(batch);
+
             return batch;
         }
+
+        protected virtual void OnBatchRegistered(Batch batch)
+        {
+            BatchRegistered?.Invoke(this, new BatchEventArgs() { Batch = batch });
+        }
+    }
+
+    public class BatchEventArgs : EventArgs
+    {
+        public Batch Batch { get; set; }
     }
 }

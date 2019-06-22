@@ -8,6 +8,6 @@ namespace FELFEL.UseCases.RegisterNewBatch
 {
     public interface IRegisterNewBatch
     {
-        Task<Batch> Async(RegisterNewBatchRequest RequestModel);
+        Task<Batch> ExecuteAsync(RegisterNewBatchRequest RequestModel);
     }
 }
