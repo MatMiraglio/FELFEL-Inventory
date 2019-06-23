@@ -5,6 +5,7 @@ using FELFEL.UseCases.Repositories;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Inventory.test
@@ -13,13 +14,13 @@ namespace Inventory.test
     {
         private RegisterNewBatch registerCommand;
         private Mock<IUnitOfWork> mock;
-        private Mock<IBatchRepository> repoMock;
+        private Mock<IBatchRepository> mockRepo;
         private Product product;
 
         public RegisterNewBatchTest()
         {
             mock = new Mock<IUnitOfWork>();
-            repoMock = new Mock<IBatchRepository>();
+            mockRepo = new Mock<IBatchRepository>();
 
 
             product = new Product
@@ -28,7 +29,7 @@ namespace Inventory.test
                 Name = "Spaghetti"
             };
 
-            mock.Setup(x => x.Batches).Returns(repoMock.Object);
+            mock.Setup(x => x.Batches).Returns(mockRepo.Object);
             mock.Setup(x => x.Products.GetAsync(2)).ReturnsAsync((Product) null);
             mock.Setup(x => x.Products.GetAsync(1)).ReturnsAsync(product);
 
@@ -68,6 +69,23 @@ namespace Inventory.test
             mock.Verify(m => m.CompleteAsync(), Times.Once);
 
             Assert.NotNull(batch);
+        }
+
+        [Fact]
+        public async Task Execute_ShouldRaiseEvent()
+        {
+            List<Batch> batchesFromEvent = new List<Batch>();
+
+            registerCommand.BatchRegistered += delegate (object sender, BatchEventArgs e)
+            {
+                batchesFromEvent.Add(e.Batch);
+            };
+
+            var RequestModel = new RegisterNewBatchRequest(1, DateTime.Today.AddDays(20), 100);
+            var batch = await registerCommand.ExecuteAsync(RequestModel);
+
+            Assert.Single(batchesFromEvent);
+            Assert.Contains(batch, batchesFromEvent);
         }
     }
 }
