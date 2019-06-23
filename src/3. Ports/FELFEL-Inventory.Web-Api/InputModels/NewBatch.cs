@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FELFEL.UseCases.RegisterNewBatch;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace FELFEL.WebApi.InputModels
@@ -15,6 +16,11 @@ namespace FELFEL.WebApi.InputModels
 
         [Required]
         public int UnitAmount { get; set; }
+
+        public RegisterNewBatchRequest AsRegisterNewBatchRequest()
+        {
+            return new RegisterNewBatchRequest(ProductId, Expiration, UnitAmount);
+        } 
 
     }
 }

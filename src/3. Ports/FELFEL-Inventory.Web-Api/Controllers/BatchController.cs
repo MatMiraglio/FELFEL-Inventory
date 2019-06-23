@@ -128,7 +128,7 @@ namespace FELFEL.WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var RequestModel = new RegisterNewBatchRequest(newBatch.ProductId, newBatch.Expiration, newBatch.UnitAmount);
+            var RequestModel = newBatch.AsRegisterNewBatchRequest();
 
             try
             {
