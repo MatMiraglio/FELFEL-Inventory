@@ -3,6 +3,7 @@ using FELFEL.UseCases.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,9 +16,12 @@ namespace FELFEL.External.EntityFrameworkDataAccess.Repositories
 
         }
 
-        public async Task<IEnumerable<Batch>> GetInventoryPerProduct(int productId)
+        public async Task<IEnumerable<Batch>> GetBatchesByProduct(int productId)
         {
-            return await FindAsync(batch => batch.ProductType.Id == productId);
+            return await _entities
+                .Where(batch => batch.ProductType.Id == productId)
+                .Include( _ => _.ProductType)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Batch>> GetBatchesDeatiledAsync()
