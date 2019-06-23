@@ -46,7 +46,7 @@ namespace FELFEL.WebApi.Controllers
             Batch batch;
             try
             {
-                batch = await batchRepository.Value.GetBatchDeatiledAsync(batchId);
+                batch = await batchRepository.Value.GetBatchAsync(batchId);
             }
             catch (Exception)
             {
@@ -57,6 +57,46 @@ namespace FELFEL.WebApi.Controllers
             if (batch == null) return NotFound($"Could not find batch {batchId}");
 
             return Ok(batch);
+        }
+
+        // GET api/batch/stock/5
+        [HttpGet("stock/{batchId}")]
+        public async Task<IActionResult> GetStock([FromRoute] int batchId)
+        {
+            int stock;
+            try
+            {
+                stock = await batchRepository.Value.GetStock(batchId);
+            }
+            catch (InvalidOperationException)
+            {
+                return NotFound($"There is no batch with id {batchId}");
+            }
+            catch (Exception ex)
+            {
+                //TODO: log
+                throw;
+            }
+
+            return Ok(stock);
+        }
+
+        // GET api/batch/stock
+        [HttpGet("stock")]
+        public async Task<IActionResult> GetAllStock()
+        {
+            IEnumerable<object> stock;
+            try
+            {
+                stock = await batchRepository.Value.GetAllStock();
+            }
+            catch (Exception)
+            {
+                //TODO: log
+                throw;
+            }
+
+            return Ok(stock);
         }
 
         // GET api/batch/history/5

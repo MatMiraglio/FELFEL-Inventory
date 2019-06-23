@@ -47,7 +47,7 @@ namespace FELFEL.Domain
         {
             get
             {
-                return State == BatchState.expired;
+                return Expiration < DateTime.Now;
             }
         }
 

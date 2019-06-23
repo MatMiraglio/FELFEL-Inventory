@@ -32,11 +32,28 @@ namespace FELFEL.External.EntityFrameworkDataAccess.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Batch> GetBatchDeatiledAsync(uint batchId)
+        public async Task<Batch> GetBatchAsync(uint batchId)
         {
             return await _entities
                .Include(x => x.ProductType)
                .SingleOrDefaultAsync(batch => batch.Id == batchId);
+        }
+
+        public async Task<int> GetStock(int batchId)
+        {
+            return await _entities
+               .Where(batch => batch.Id == batchId)
+               .Select(_ => _.RemainingUnits)
+               .FirstAsync(); 
+        }
+
+        public async Task<IEnumerable<object>> GetAllStock()
+        {
+            return await _entities
+               .Select(_ => new { _.Id, _.RemainingUnits })
+               .ToListAsync();
+
+
         }
 
         public async Task<Batch> GetBatchWithHistoryAsync(uint batchId)
