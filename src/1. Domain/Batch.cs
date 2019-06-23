@@ -10,7 +10,7 @@ namespace FELFEL.Domain
             History = new HashSet<BatchStockChange>();
         }
 
-        public Batch(Product product, DateTime expiration, uint unitAmount)
+        public Batch(Product product, DateTime expiration, int unitAmount)
         {
             ProductType = product;
             Expiration = expiration;
@@ -24,8 +24,8 @@ namespace FELFEL.Domain
         public Product ProductType { get; set; }
         public DateTime Expiration { get; set; }
         public DateTime Arrival { get; set; }
-        public uint OriginalUnitAmount { get; set; }
-        public uint RemainingUnits { get; set; }
+        public int OriginalUnitAmount { get; set; }
+        public int RemainingUnits { get; set; }
         public BatchState State
         {
             get
@@ -47,7 +47,7 @@ namespace FELFEL.Domain
         {
             get
             {
-                return Expiration < DateTime.Now;
+                return State == BatchState.expired;
             }
         }
 

@@ -14,7 +14,7 @@ namespace FELFEL.WebApi.InputModels
         public DateTime Expiration { get; set; }
 
         [Required]
-        public uint UnitAmount { get; set; }
+        public int UnitAmount { get; set; }
 
     }
 }

@@ -26,7 +26,7 @@ namespace FELFEL.UseCases.ModifyBatchStock
                 throw new KeyNotFoundException($"Batch with id {RequestModel.BatchId} not found");
             }
 
-            var StockChange = new BatchStockChange(batch, RequestModel.NewUnitAmount, RequestModel.ReasonForChange);
+            var StockChange = new BatchStockChange(batch.RemainingUnits, RequestModel.NewUnitAmount, RequestModel.ReasonForChange);
 
             batch.RemainingUnits = RequestModel.NewUnitAmount;
             batch.History.Add(StockChange);

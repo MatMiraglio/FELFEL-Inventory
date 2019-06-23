@@ -112,7 +112,7 @@ namespace FELFEL.WebApi.Controllers
 
         // PATCH api/batch/5
         [HttpPatch("{batchId}")]
-        public async Task<IActionResult> ModifyBatchStock([FromRoute] uint batchId, [FromBody] BatchStockModification changeRequest)
+        public async Task<IActionResult> ModifyBatchStock([FromRoute] int batchId, [FromBody] BatchStockModification changeRequest)
         {
             var requestModel = new ModifyBatchStockRequest(batchId, changeRequest.NewUnitAmount, changeRequest.ReasonForChange);
 

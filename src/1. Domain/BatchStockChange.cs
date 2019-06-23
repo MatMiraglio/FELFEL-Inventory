@@ -6,9 +6,9 @@ namespace FELFEL.Domain
 {
     public class BatchStockChange
     {
-        public BatchStockChange(Batch batch, uint newAmount, string message)
+        public BatchStockChange(int oldAmount, int newAmount, string message)
         {
-            OldAmount = batch.RemainingUnits;
+            OldAmount = oldAmount;
             NewAmount = newAmount;
             TimeOfChange = DateTime.Now;
             Message = message;
@@ -17,8 +17,8 @@ namespace FELFEL.Domain
         public BatchStockChange() {}
 
         public int ID { get; set; }
-        public uint OldAmount { get; set; }
-        public uint NewAmount { get; set; }
+        public int OldAmount { get; set; }
+        public int NewAmount { get; set; }
         public DateTime TimeOfChange { get; set; }
         public string Message { get; set; }
 
@@ -26,8 +26,8 @@ namespace FELFEL.Domain
         {
             get
             {
-                var diff = OldAmount - NewAmount;
-                return checked((int) diff ); 
+                var diff = NewAmount - OldAmount;
+                return diff; 
             }
         }
 

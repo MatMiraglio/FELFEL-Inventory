@@ -7,7 +7,7 @@ namespace FELFEL.WebApi.InputModels
 {
     public class BatchStockModification
     {
-        public uint NewUnitAmount { get; set; }
+        public int NewUnitAmount { get; set; }
         public string ReasonForChange { get; set; }
     }
 }
