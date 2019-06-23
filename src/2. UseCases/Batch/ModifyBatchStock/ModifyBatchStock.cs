@@ -19,7 +19,7 @@ namespace FELFEL.UseCases.ModifyBatchStock
         {
             Validate(RequestModel);
 
-            var batch = await unitOfWork.Batches.SingleOrDefaultAsync(x => x.Id == RequestModel.BatchId);
+            var batch = await unitOfWork.Batches.GetAsync(RequestModel.BatchId);
 
             if (batch == null)
             {
