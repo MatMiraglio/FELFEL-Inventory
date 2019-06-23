@@ -47,7 +47,7 @@ namespace FELFEL.WebApi.Controllers
 
             if (batch == null)
             {
-                return NotFound(batchId);
+                return NotFound($"Could not find batch {batchId}");
             }
 
             return Ok(batch);
