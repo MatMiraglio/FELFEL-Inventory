@@ -97,7 +97,7 @@ namespace FELFEL.WebApi.Controllers
             }
             catch (Exception)
             {
-                //TODO: log input that caused an error
+                //TODO: log error
                 throw;
             }
         }
@@ -106,12 +106,7 @@ namespace FELFEL.WebApi.Controllers
         [HttpPatch("{batchId}")]
         public async Task<IActionResult> ModifyBatchStock([FromRoute] uint batchId, [FromBody] BatchStockModification changeRequest)
         {
-            var requestModel = new ModifyBatchStockRequest
-            {
-                BatchId = batchId,
-                NewUnitAmount = changeRequest.NewUnitAmount,
-                ReasonForChange = changeRequest.ReasonForChange
-            };
+            var requestModel = new ModifyBatchStockRequest(batchId, changeRequest.NewUnitAmount, changeRequest.ReasonForChange);
 
             Batch modifiedBatch;
 
@@ -130,6 +125,7 @@ namespace FELFEL.WebApi.Controllers
             }
             catch (Exception)
             {
+                //TODO: log error
                 throw;
             }
         }

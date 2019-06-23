@@ -11,6 +11,6 @@ namespace FELFEL.Domain
         public int AmountBatchesExpiring { get; set; }
         public ICollection<Batch> BatchesExpiring { get; set; }
         public ICollection<Batch> BatchesExpiringToday { get; set; }
-        public Product[] ProductsSoonToExpire { get; set; }
+        public ICollection<Product> ProductsSoonToExpire { get; set; }
     }
 }

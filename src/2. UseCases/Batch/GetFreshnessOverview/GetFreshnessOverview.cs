@@ -36,8 +36,8 @@ namespace FELFEL.UseCases.GetFreshnessOverview
                 AmountBatchesFresh = freshCount,
                 AmountBatchesExpiring = expiringBatches.Count(),
                 BatchesExpiring = expiringBatches.ToList(),
-                BatchesExpiringToday = batchesExpiringToday.ToList()
-
+                BatchesExpiringToday = batchesExpiringToday.ToList(),
+                ProductsSoonToExpire = productsExpiring.ToList()
             };
 
             return freshnessOverview;
