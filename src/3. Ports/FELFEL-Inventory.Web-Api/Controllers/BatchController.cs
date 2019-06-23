@@ -43,12 +43,18 @@ namespace FELFEL.WebApi.Controllers
         [HttpGet("{batchId}")]
         public async Task<IActionResult> GetBatch([FromRoute] uint batchId) 
         {
-            var batch = await batchRepository.Value.GetBatchDeatiledAsync(batchId);
-
-            if (batch == null)
+            Batch batch;
+            try
             {
-                return NotFound($"Could not find batch {batchId}");
+                batch = await batchRepository.Value.GetBatchDeatiledAsync(batchId);
             }
+            catch (Exception)
+            {
+                //TODO: log
+                throw;
+            }
+
+            if (batch == null) return NotFound($"Could not find batch {batchId}");
 
             return Ok(batch);
         }
@@ -57,12 +63,18 @@ namespace FELFEL.WebApi.Controllers
         [HttpGet("history/{batchId}")]
         public async Task<IActionResult> GetBatchHistory([FromRoute] uint batchId)
         {
-            var batch = await batchRepository.Value.GetBatchWithHistoryAsync(batchId);
-
-            if (batch == null)
+            Batch batch;
+            try
             {
-                return NotFound($"could not find batch {batchId}");
+                batch = await batchRepository.Value.GetBatchWithHistoryAsync(batchId);
             }
+            catch (Exception)
+            {
+                //TODO: log
+                throw;
+            }
+
+            if (batch == null) return NotFound($"could not find batch {batchId}");
 
             return Ok(batch);
         }
@@ -76,11 +88,7 @@ namespace FELFEL.WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var RequestModel = new RegisterNewBatchRequest(
-                                        newBatch.ProductId, 
-                                        newBatch.Expiration, 
-                                        newBatch.UnitAmount
-                                        );
+            var RequestModel = new RegisterNewBatchRequest(newBatch.ProductId, newBatch.Expiration, newBatch.UnitAmount);
 
             try
             {

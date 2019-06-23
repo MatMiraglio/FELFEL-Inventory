@@ -28,9 +28,17 @@ namespace FELFEL.WebApi.Controllers
         [HttpGet("{productId}")]
         public async Task<IActionResult> GetInventoryPerProduct([FromRoute] int productId)
         {
-            var batches = await batchRepository.Value.GetBatchesByProduct(productId);
+            try
+            {
+                var batches = await batchRepository.Value.GetBatchesByProduct(productId);
+                return Ok(batches);
+            }
+            catch (Exception)
+            {
+                //TODO: log
+                throw;
+            }
 
-            return Ok(batches);
         }
 
         // GET api/inventory/freshness
@@ -38,9 +46,16 @@ namespace FELFEL.WebApi.Controllers
         [HttpGet("freshness/overview")]
         public async Task<IActionResult> GetInventoryFreshnessOverview()
         {
-            var overview = await getFreshnessOverview.Value.ExecuteAsync();
-
-            return Ok(overview);
+            try
+            {
+                var overview = await getFreshnessOverview.Value.ExecuteAsync();
+                return Ok(overview);
+            }
+            catch (Exception)
+            {
+                //TODO: log
+                throw;
+            }
         }
     }
 }
