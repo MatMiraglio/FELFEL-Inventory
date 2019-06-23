@@ -31,6 +31,9 @@ namespace FELFEL.WebApi
                 .AddTransient(provider => new Lazy<IBatchRepository>( provider.GetService<IBatchRepository>()))
 
                 .AddTransient<IUnitOfWork, UnitOfWork>()
-                .AddTransient(x => new Lazy<IUnitOfWork>(() => x.GetRequiredService<IUnitOfWork>()));
+                .AddTransient(x => new Lazy<IUnitOfWork>(() => x.GetRequiredService<IUnitOfWork>()))
+                
+                .AddTransient<IGetFreshnessOverview, GetFreshnessOverview>()
+                .AddTransient(x => new Lazy<IGetFreshnessOverview>(() => x.GetRequiredService<IGetFreshnessOverview>()));
     }
 }
