@@ -4,6 +4,7 @@ Inventory Management System
 API built with asp.net core 2.0
 
 Structure:
+
 1 Domain: Business rules
 
 2 Use cases: What our program can do following the business rules
