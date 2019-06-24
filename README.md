@@ -16,11 +16,17 @@ Structure:
 
 Dependency Rule:
 The code on one layer can only depend on code in a lower layer 4 -> 3 - > 2 -> 1
+
 The domain and the use cases are not allowed to depend on external frameworks or ports.
 
 Tools and Techniques used:
+
 ASP.NET Core
+
 Entity Framework Core
+
 SQL Server
+
 Unit of work and repository patterns
+
 XUnit and MOQ
