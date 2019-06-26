@@ -61,6 +61,41 @@ namespace Inventory.test
             Assert.False(batch.IsExpired);
         }
 
+        [Theory]
+        [InlineData(20, 25)]
+        [InlineData(2, 25)]
+        [InlineData(-1, 0)]
+        [InlineData(0, 1)]
+        [InlineData(9, 9)]
+        public void ExpiresInLessThanDays_shouldReturnTrue(int expirationInDays, int lessThan)
+        {
+            var batch = new Batch
+            {
+                Expiration = DateTime.Now.AddDays(expirationInDays)
+            };
+
+            bool result = batch.ExpirationIsInLessThanDays(lessThan);
+
+            Assert.True(result);
+        }
+
+        [Theory]
+        [InlineData(20, 19)]
+        [InlineData(2, 0)]
+        [InlineData(0, -1)]
+        [InlineData(6, 3)]
+        public void ExpiresInLessThanDays_shouldReturnFalse(int expirationInDays, int lessThan)
+        {
+            var batch = new Batch
+            {
+                Expiration = DateTime.Now.AddDays(expirationInDays)
+            };
+
+            bool result = batch.ExpirationIsInLessThanDays(lessThan);
+
+            Assert.False(result);
+        }
+
 
 
     }

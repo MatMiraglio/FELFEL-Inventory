@@ -19,7 +19,6 @@ namespace Inventory.test
         private Mock<IRegisterNewBatch> mockRegister;
         private RegisterNewBatchRequest registerRequest;
         private Mock<IModifyBatchStock> mockModify;
-        private int _404 = 404;
 
         public BatchControllerTest()
         {
@@ -28,7 +27,7 @@ namespace Inventory.test
             {
                 Id = 200
             };
-            mockRepo.Setup( x => x.GetBatchAsync(200)).ReturnsAsync(batch);
+            mockRepo.Setup(x => x.GetBatchAsync(200)).ReturnsAsync(batch);
             mockRepo.Setup(x => x.GetBatchAsync(404)).ReturnsAsync((Batch) null);
             mockRepo.Setup(x => x.GetStock(404)).Throws(new InvalidOperationException());
             mockRepo.Setup(x => x.GetStock(200)).ReturnsAsync(100);
@@ -41,6 +40,7 @@ namespace Inventory.test
 
             registerRequest = new RegisterNewBatchRequest(200,DateTime.Today.AddDays(21), 500);
             mockRegister.Setup(x => x.ExecuteAsync(It.IsAny<RegisterNewBatchRequest>())).ReturnsAsync(batch);
+
             var lazyRegister = new Lazy<IRegisterNewBatch>(() => mockRegister.Object);
 
             mockModify = new Mock<IModifyBatchStock>();
@@ -179,7 +179,5 @@ namespace Inventory.test
             //Assert
             Assert.IsType<CreatedAtActionResult>(result);
         }
-
-
     }
 }

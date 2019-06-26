@@ -54,7 +54,7 @@ namespace FELFEL.Domain
         public virtual ICollection<BatchStockChange> History { get; set; }
 
 
-        private bool ExpirationIsInLessThanDays(int daysInTheFuture)
+        public bool ExpirationIsInLessThanDays(int daysInTheFuture)
         {
             return Expiration < DateTime.Now.AddDays(daysInTheFuture);
         }
