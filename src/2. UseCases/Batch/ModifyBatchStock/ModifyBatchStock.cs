@@ -28,7 +28,7 @@ namespace FELFEL.UseCases.ModifyBatchStock
 
             var StockChange = new BatchStockChange(batch.RemainingUnits, RequestModel.NewUnitAmount, RequestModel.ReasonForChange);
 
-            batch.RemainingUnits = RequestModel.NewUnitAmount;
+            batch.RemainingUnits = StockChange.NewAmount;
             batch.History.Add(StockChange);
             
             await unitOfWork.CompleteAsync();

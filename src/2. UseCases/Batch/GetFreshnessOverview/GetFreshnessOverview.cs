@@ -20,19 +20,21 @@ namespace FELFEL.UseCases.GetFreshnessOverview
 
         public async Task<FreshnessOverview> ExecuteAsync()
         {
-            IEnumerable<Batch> batches = await batchRepository.GetBatchesDeatiledAsync();
+            int expiredBatchesCount = batchRepository.GetCount(batch => batch.IsExpired);
 
-            int expiredCount = batches.Where(batch => batch.IsExpired).Count();
+            var batches = await batchRepository.FindAsync(batch => !batch.IsExpired);
+
             int freshCount = batches.Where(batch => batch.State == BatchState.fresh).Count();
 
             IEnumerable<Batch> expiringBatches = batches.Where(batch => batch.State == BatchState.expiring);
+
             IEnumerable<Batch> batchesExpiringToday = expiringBatches.Where(batch => batch.Expiration.Date == DateTime.Today.Date);
 
             IEnumerable<Product> productsExpiring = expiringBatches.Select(x => x.ProductType).Distinct();
 
             var freshnessOverview = new FreshnessOverview
             {
-                AmountBatchesExpired = expiredCount,
+                AmountBatchesExpired = expiredBatchesCount,
                 AmountBatchesFresh = freshCount,
                 AmountBatchesExpiring = expiringBatches.Count(),
                 BatchesExpiring = expiringBatches.ToList(),

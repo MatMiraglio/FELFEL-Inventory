@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,6 +23,11 @@ namespace FELFEL.External.EntityFrameworkDataAccess.Repositories
                 .Where(batch => batch.ProductType.Id == productId)
                 .Include( _ => _.ProductType)
                 .ToListAsync();
+        }
+
+        public int GetCount(Expression<Func<Batch, bool>> predicate)
+        {
+            return _entities.Count(predicate);
         }
 
         public async Task<IEnumerable<Batch>> GetBatchesDeatiledAsync()

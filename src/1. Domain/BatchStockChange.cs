@@ -26,8 +26,7 @@ namespace FELFEL.Domain
         {
             get
             {
-                var diff = NewAmount - OldAmount;
-                return diff; 
+                return NewAmount - OldAmount;
             }
         }
 
